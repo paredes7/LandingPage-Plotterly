@@ -18,7 +18,7 @@ class PedidosController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'shipping_type' => 'required|in:local,envio',
@@ -36,12 +36,14 @@ class PedidosController extends Controller
         try {
             // Crear pedido
             $order = Order::create([
-                'user_id' => $request->user_id,
-                'status_id' => 1,
-                'payment_method_id' => $request->payment_method_id ?? 1,
-                'total' => $request->total,
-                'note' => $request->shipping_type === 'envio' ? $request->address : 'Recojo en el local',
-            ]);
+    'user_id' => $request->user_id,
+    'status_id' => 1,
+    'payment_method_id' => $request->payment_method_id ?? 1,
+    'total' => $request->total,
+    'note' => $request->shipping_type === 'envio' ? $request->address : 'Recojo en el local',
+    'delivery_date' => $request->delivery_date,   // agregado
+    'delivery_time' => $request->delivery_time,   // agregado
+]);
 
             // Crear items
             $orderItems = [];

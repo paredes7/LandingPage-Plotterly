@@ -21,33 +21,31 @@ class Order extends Model
         'payment_method_id',
         'total',
         'note',
+        'delivery_date',   // agregado
+        'delivery_time',   // agregado
     ];
 
     protected $casts = [
         'total' => 'decimal:2',
+        'delivery_date' => 'date', // casteo a date
     ];
 
     // Relaciones
-
-    // Usuario que realizó el pedido
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Estado del pedido
     public function status()
     {
         return $this->belongsTo(OrderStatus::class, 'status_id');
     }
 
-    // Método de pago
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
-    // Items del pedido
     public function items()
     {
         return $this->hasMany(OrderItem::class, 'order_id');

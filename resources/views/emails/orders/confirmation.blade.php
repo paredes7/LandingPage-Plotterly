@@ -8,7 +8,7 @@ Tu pedido ha sido recibido correctamente. Aquí tienes los detalles más importa
 **ID de pedido:** {{ $order->id }}  
 **Total:** ${{ number_format($order->total, 2) }}  
 **Tipo de envío:** {{ ucfirst($order->note) }}  
-**Fecha de entrega:** {{ $order->delivery_date ?? 'N/A' }}  
+**Fecha de entrega:** {{ $order->delivery_date ? $order->delivery_date->format('d/m/Y') : 'N/A' }}  
 **Hora de entrega:** {{ $order->delivery_time ?? 'N/A' }}
 
 @component('mail::table')
