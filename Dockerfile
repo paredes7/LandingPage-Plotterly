@@ -22,9 +22,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------------------------
-# Instalar Node.js 20 LTS y npm
+# Instalar Node.js 18 LTS (más estable) y npm
 # -----------------------------------------------
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
 
