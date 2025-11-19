@@ -75,7 +75,7 @@ public function index(Request $request)
         }
     }
 
-    // Enviar correos si pasa a Entregado (id=4) y antes no estaba entregado
+    // Enviar correos si pasa a Entregado (id=) y antes no estaba entregado
     if ($order->status_id == 3 && $previousStatus != 4) {
         Mail::to('jhasesaat@gmail.com')->send(new OrderDeliveredAdmin($order));
         Mail::to($order->user->email)->send(new OrderDeliveredCustomer($order));

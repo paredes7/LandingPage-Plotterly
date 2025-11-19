@@ -86,4 +86,5 @@ class AdminCategoryProductsController extends Controller
         $product->delete();
         return response()->json(['status' => 'success']);
     }
+    
 }

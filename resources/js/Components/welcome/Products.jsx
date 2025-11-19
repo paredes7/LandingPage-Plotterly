@@ -16,9 +16,9 @@ export default function Products() {
   const [addingId, setAddingId] = useState(null);
   const [successId, setSuccessId] = useState(null);
   const { addToCart } = useCart();
-////////////////////////////////Super importante/////////////////////////////////////////////////////////
+  ////////////////////////////////Super importante/////////////////////////////////////////////////////////
   const priorityCategories = ['Destacados', 'Ofertas'];
-/////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     setLoading(true);
     fetch('/products')
@@ -90,18 +90,35 @@ export default function Products() {
         return (
           <div key={category.id} className="mb-12">
             {/* Separador */}
-            {idx !== 0 && <hr className="my-8 border-gray-300 dark:border-gray-600" />}
+            {idx !== 0 && (
+              <div className="my-12 flex items-center gap-4">
+                <div className="flex-1 h-[2px] bg-gradient-to-r from-transparent via-brandGold/50 to-transparent"></div>
+              </div>
+            )}
 
-            {/* Nombre de categoría */}
-            <h2 className="text-3xl font-semibold text-brandBlack dark:text-white mb-2">
-              {category.name}
-            </h2>
+
+            <div className="relative mb-6">
+              {/* Línea decorativa superior */}
+              <div className="absolute -top-3 left-0 w-20 h-1 bg-brandGold rounded-full shadow-lg"></div>
+
+              {/* Nombre de la categoría */}
+              <h2 className="text-4xl font-extrabold text-brandBlack dark:text-white tracking-wide
+                drop-shadow-md flex items-center gap-3">
+                <span className="text-brandGold text-5xl">✦</span>
+                {category.name}
+              </h2>
+
+              {/* Línea subrayada animada */}
+              <div className="mt-2 h-1 w-full bg-gradient-to-r from-brandGold/80 to-transparent rounded-full"></div>
+            </div>
+
 
             {/* Descripción de categoría */}
             {category.description && (
-              <p className="text-gray-500 dark:text-gray-300 mb-6">{category.description}</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg italic pl-2">
+                {category.description}
+              </p>
             )}
-
             {(isDesktopCarousel || isTabletCarousel || isMobileCarousel) ? (
               <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -151,40 +168,90 @@ function ProductCard({ product, handleAddToCart, addingId, successId }) {
   const isOutOfStock = product.stock === 0;
 
   return (
-    <div className={`bg-white dark:bg-zinc-800 rounded-3xl shadow-xl overflow-hidden hover:scale-105 transition-transform duration-300 ${isOutOfStock ? 'opacity-70' : ''}`}>
-      <div className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden">
+    <div
+      className={`
+      relative overflow-hidden rounded-3xl shadow-2xl border 
+      ${isOutOfStock ? "opacity-70 border-red-400" : "border-brandGold border-2"}
+      bg-white dark:bg-zinc-800 
+      hover:scale-[1.03] hover:shadow-3xl 
+      transition-all duration-300
+    `}
+    >
+      {/* Cinta de agotado */}
+      {isOutOfStock && (
+        <div className="absolute top-4 left-0 bg-red-600 text-white px-4 py-1 text-sm font-bold rounded-r-xl shadow-lg">
+          Agotado
+        </div>
+      )}
+
+      {/* Imagen */}
+      <div className="w-full h-72 sm:h-80 lg:h-96 overflow-hidden">
         <img
-          src={product.image || 'https://via.placeholder.com/600x400'}
+          src={product.image || "https://via.placeholder.com/600x400"}
           alt={product.name}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center rounded-t-3xl"
         />
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-brandBlack dark:text-white">{product.name}</h3>
-        <p className="text-gray-500 dark:text-gray-300 mt-2">{product.description}</p>
-        <p className={`mt-2 font-semibold ${isOutOfStock ? 'text-red-500' : 'text-gray-700 dark:text-gray-100'}`}>
-          {isOutOfStock ? 'No disponible' : `Stock: ${product.stock}`}
-        </p>
-        <p className="mt-4 font-bold text-lg text-gray-800 dark:text-gray-100">Bs{Number(product.price).toFixed(2)}</p>
 
+      {/* Contenido */}
+      <div className="p-6">
+
+        {/* Nombre del producto */}
+        <h3 className="text-2xl font-bold text-brandBlack dark:text-white tracking-wide drop-shadow-sm">
+          {product.name}
+        </h3>
+
+        {/* Descripción corta */}
+        <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm line-clamp-3">
+          {product.description}
+        </p>
+
+        {/* STOCK llamativo */}
+        <div className="mt-4">
+          <span
+            className={`
+              inline-block px-4 py-2 text-sm font-bold rounded-xl 
+              shadow-md border 
+              ${isOutOfStock
+                ? "bg-red-100 text-red-700 border-red-400"
+                : "bg-green-100 text-green-700 border-green-400"
+              }
+            `}
+          >
+            {isOutOfStock ? "Sin stock" : `Stock: ${product.stock}`}
+          </span>
+        </div>
+
+        {/* PRECIO gigante tipo tarjeta comercial */}
+        <p className="mt-4 text-3xl font-extrabold text-brandGold drop-shadow-sm">
+          Bs {Number(product.price).toFixed(2)}
+        </p>
+
+        {/* Botón */}
         <button
           onClick={() => handleAddToCart(product)}
           disabled={addingId === product.id || isOutOfStock}
-          className={`mt-6 w-full py-3 rounded-xl transition ${
-            addingId === product.id
-              ? 'bg-gray-400 text-white cursor-not-allowed'
-              : 'bg-brandGold text-brandBlack hover:bg-[#bfa333]'
-          }`}
+          className={`
+            mt-6 w-full py-3 rounded-xl text-lg font-bold
+            transition-all shadow-lg
+            ${addingId === product.id
+              ? "bg-gray-400 text-white cursor-not-allowed"
+              : successId === product.id
+                ? "bg-green-500 text-white"
+                : "bg-brandGold text-brandBlack hover:bg-[#bfa333]"
+            }
+          `}
         >
           {isOutOfStock
-            ? 'No disponible'
+            ? "No disponible"
             : addingId === product.id
-            ? 'Agregando...'
-            : successId === product.id
-            ? '¡Agregado!'
-            : 'Agregar al carrito'}
+              ? "Agregando..."
+              : successId === product.id
+                ? "¡Agregado!"
+                : "Agregar al carrito"}
         </button>
       </div>
     </div>
   );
 }
+
