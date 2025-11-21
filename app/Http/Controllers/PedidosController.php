@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Cart;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use App\Mail\OrderConfirmation;
 
 class PedidosController extends Controller
@@ -17,61 +19,97 @@ class PedidosController extends Controller
         return Inertia::render('checkout');
     }
 
-    public function store(Request $request)
-    { 
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'shipping_type' => 'required|in:local,envio',
-            'delivery_date' => 'required|date',
-            'delivery_time' => 'required|string',
-            'address' => 'required|string',
-            'cart' => 'required|array|min:1',
-            'cart.*.id' => 'required|exists:products,id',
-            'cart.*.quantity' => 'required|integer|min:1',
-            'cart.*.price' => 'required|numeric|min:0',
-            'subtotal' => 'required|numeric|min:0',
-            'total' => 'required|numeric|min:0',
+   public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'shipping_type' => 'required|in:local,envio',
+        'delivery_date' => 'required|date',
+        'delivery_time' => 'required|string',
+        'address' => 'required|string',
+        'cart' => 'required|array|min:1',
+        'cart.*.id' => 'required|exists:products,id',
+        'cart.*.quantity' => 'required|integer|min:1',
+        'cart.*.price' => 'required|numeric|min:0',
+        'subtotal' => 'required|numeric|min:0',
+        'total' => 'required|numeric|min:0',
+    ]);
+
+    try {
+        // Crear pedido
+        $order = Order::create([
+            'user_id' => $request->user_id,
+            'status_id' => 1,
+            'payment_method_id' => $request->payment_method_id ?? 1,
+            'total' => $request->total,
+            'note' => $request->shipping_type === 'envio' ? $request->address : 'Recojo en el local',
+            'delivery_date' => $request->delivery_date,
+            'delivery_time' => $request->delivery_time,
         ]);
 
-        try {
-            // Crear pedido
-            $order = Order::create([
-    'user_id' => $request->user_id,
-    'status_id' => 1,
-    'payment_method_id' => $request->payment_method_id ?? 1,
-    'total' => $request->total,
-    'note' => $request->shipping_type === 'envio' ? $request->address : 'Recojo en el local',
-    'delivery_date' => $request->delivery_date,   // agregado
-    'delivery_time' => $request->delivery_time,   // agregado
-]);
+        // Crear items
+        $orderItems = [];
+        foreach ($request->cart as $item) {
+            $orderItem = OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['id'],
+                'quantity' => $item['quantity'],
+                'price' => round($item['price'], 2),
+                'subtotal' => round($item['quantity'] * $item['price'], 2),
+            ]);
+            $orderItems[] = $orderItem;
+        }
 
-            // Crear items
-            $orderItems = [];
-            foreach ($request->cart as $item) {
-                $orderItem = OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['id'],
-                    'quantity' => $item['quantity'],
-                    'price' => round($item['price'], 2),
-                    'subtotal' => round($item['quantity'] * $item['price'], 2),
-                ]);
-                $orderItems[] = $orderItem;
+        // Enviar correo al usuario
+        $user = $order->user;
+        Mail::to($user->email)->send(new OrderConfirmation($order, $orderItems));
+
+        // 🔔 Enviar mensaje WhatsApp al admin con resumen del pedido
+        try {
+            $mensaje = "📌 *Nuevo pedido realizado*\n\n";
+            $mensaje .= "🧑‍💼 Cliente: {$user->name} ({$user->email})\n";
+            $mensaje .= "📅 Fecha de entrega: {$order->delivery_date} a las {$order->delivery_time}\n";
+            $mensaje .= "🏠 Dirección: {$order->note}\n";
+            $mensaje .= "🛒 Productos:\n";
+
+            foreach ($orderItems as $item) {
+                $mensaje .= "• {$item->product->name} x {$item->quantity} = Bs. ".number_format($item->subtotal, 2)."\n";
             }
 
-            // Enviar correo al usuario
-            $user = $order->user;
-            Mail::to($user->email)->send(new OrderConfirmation($order, $orderItems));
+            $mensaje .= "\n💵 Total: Bs. ".number_format($order->total, 2)."\n";
+            $mensaje .= "🔗 Ver detalles en admin: ".url('/admin/login');
 
-            // Vaciar carrito
-            Cart::destroy();
+            $server   = "https://automatizando-evolution-api-last.pk1ooa.easypanel.host";
+            $instance = "Prueba";
+            $apikey   = "5D2EA457-D8C8-4B31-AAAE-2126007B9CD9";
 
-            // Redirigir a página de éxito
-            return redirect()->route('welcome')->with('success', 'Tu pedido se realizó con éxito!');
+            $whatsPayload = [
+                'number' => '59174048209', // número admin
+                'text'   => $mensaje,
+            ];
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'apikey' => $apikey,
+            ])->post("$server/message/sendText/$instance", $whatsPayload);
+
+            if ($response->failed()) {
+                Log::error("❌ Error enviando mensaje de pedido al admin: ".$response->body());
+            }
 
         } catch (\Exception $e) {
-            return redirect()->route('checkout')->with('error', 'Error al crear el pedido: ' . $e->getMessage());
+            Log::error("❌ Excepción enviando mensaje de pedido al admin: ".$e->getMessage());
         }
+
+        // Vaciar carrito
+        Cart::destroy();
+
+        return redirect()->route('welcome')->with('success', 'Tu pedido se realizó con éxito!');
+
+    } catch (\Exception $e) {
+        return redirect()->route('checkout')->with('error', 'Error al crear el pedido: ' . $e->getMessage());
     }
+}
 
 
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminControllerDashboard;
 use App\Http\Controllers\AdminCategoryProductsController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReportController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -74,9 +75,12 @@ Route::get('/orders/meta', [OrderController::class, 'meta']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::put('/orders/{order}', [OrderController::class, 'update']);
     Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
+    // Reportes de ventas
 
-
-
+Route::get('/reportes', [ReportController::class, 'ventas']);
+Route::get('/reportes/excel', [ReportController::class, 'exportExcel']);
+Route::get('/reportes/csv', [ReportController::class, 'exportCsv']);
+Route::get('/reportes/pdf', [ReportController::class, 'exportPdf']);
 
     });
 });

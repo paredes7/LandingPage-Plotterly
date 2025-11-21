@@ -5,6 +5,7 @@ import { Head } from "@inertiajs/react";
 import AdminHeader from "@/Components/admin/AdminHeader.jsx";
 import CategoriesSection from "@/Components/admin/Categorias/CategoriesSection.jsx";
 import OrdersSection from "@/Components/admin/Orders/OrdersSection.jsx";
+import ReportsSection from "@/Components/admin/Reportes/ReportsSection";
 
 export default function AdminDashboard({ categories = [] }) {
   const section1Ref = useRef(null);
@@ -56,7 +57,7 @@ export default function AdminDashboard({ categories = [] }) {
             onClick={() => scrollToSection(section3Ref)}
             className="px-6 py-4 bg-white rounded-2xl shadow-lg text-base sm:text-lg font-semibold text-gray-800 hover:bg-blue-100 transition w-full"
           >
-            Sección 3
+            Reportes
           </button>
         </div>
       </section>
@@ -70,12 +71,8 @@ export default function AdminDashboard({ categories = [] }) {
         <OrdersSection  />
       </section>
 
-      {/* SECCIÓN 3 */}
       <section ref={section3Ref} className="min-h-screen flex justify-center items-center px-4">
-        <div className="bg-white rounded-2xl shadow-xl p-10 max-w-7xl w-[95%] sm:w-full text-gray-500 text-center">
-          <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-gray-700">Espacio 3</h2>
-          <p>Listo para nuevos componentes.</p>
-        </div>
+        <ReportsSection/>
       </section>
 
     </div>
