@@ -8,15 +8,15 @@ export default function Contacto() {
                 className="bg-white text-center py-10 mt-10 border-t border-grayCustom shadow-inner rounded-2xl"
                 style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
             >
-                {/* Título */}
+                
                 <h2 className="text-darkGray text-3xl font-bold mb-6">Contacto</h2>
 
-                {/* Información de contacto */}
+              
                 <div className="text-darkGray text-lg mb-6 space-y-2">
-                    <p> WhatsApp: <span className="text-turquoise font-semibold">+591 69791784</span></p>
+                    <p> WhatsApp: <span className="text-turquoise font-semibold">+56 978843627</span></p>
                 </div>
 
-                {/* Redes sociales */}
+                
                 <div className="flex justify-center space-x-10 mb-6">
                     <a 
                         href="https://www.instagram.com/marouniformes2023" 
