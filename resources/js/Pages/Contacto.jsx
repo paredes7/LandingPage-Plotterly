@@ -13,7 +13,7 @@ export default function Contacto(){
 
       {/* Información de contacto */}
       <div className="text-white text-lg mb-6 space-y-2">
-        <p>📞 WhatsApp: +591 69791784</p>
+        <p>📞 WhatsApp: +591 69791784d</p>
         <p>✉️ Correo: info@exclusive.com</p>
         <p>Política de privacidad | Términos de uso</p>
       </div>
