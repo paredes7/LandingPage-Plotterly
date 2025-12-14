@@ -5,30 +5,69 @@ export default function ProductFormModal({ categoryId, product, onClose, onSave 
     name: product?.name || "",
     description: product?.description || "",
     price: product?.price || "",
-    image: null,
+    files: [], // archivos nuevos
   });
 
+  const [existingMedia, setExistingMedia] = useState(product?.multimedia || []);
+  const [previews, setPreviews] = useState([]); // objetos {file, url}
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
-    const file = files ? files[0] : null;
-    setFormData(prev => ({ ...prev, [name]: file || value }));
-    if (name === "image" && file) setPreview(URL.createObjectURL(file));
+
+    if (name === "files") {
+      const newFiles = Array.from(files);
+      const newPreviews = newFiles.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+      }));
+      setFormData((prev) => ({ ...prev, files: [...prev.files, ...newFiles] }));
+      setPreviews((prev) => [...prev, ...newPreviews]);
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = async e => {
+  const handleRemoveExisting = (id) => {
+    setExistingMedia((prev) => prev.filter((m) => m.id !== id));
+  };
+
+  const handleRemoveNewFile = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index),
+    }));
+    setPreviews((prev) => {
+      // liberar URL.createObjectURL
+      URL.revokeObjectURL(prev[index].url);
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrors({});
 
     try {
       const data = new FormData();
 
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null) data.append(key, value);
+        if (key === "files") {
+          value.forEach((file) => data.append("files[]", file));
+        } else if (value !== null) {
+          data.append(key, value);
+        }
       });
+
+      const removedIds = product?.multimedia
+        ?.filter((m) => !existingMedia.find((em) => em.id === m.id))
+        .map((m) => m.id);
+      if (removedIds?.length) {
+        removedIds.forEach((id) => data.append("removed_media_ids[]", id));
+      }
 
       let url = "/admin/products";
       let method = "POST";
@@ -42,9 +81,25 @@ export default function ProductFormModal({ categoryId, product, onClose, onSave 
 
       const res = await fetch(url, {
         method,
-        headers: { "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content },
+        headers: {
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+          "Accept": "application/json", // clave para evitar HTML
+        },
         body: data,
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        try {
+          const jsonErr = JSON.parse(text);
+          setErrors(jsonErr.errors || {});
+        } catch {
+          console.error("Error inesperado:", text);
+          alert("Error inesperado del servidor");
+        }
+        setLoading(false);
+        return;
+      }
 
       const json = await res.json();
 
@@ -57,7 +112,6 @@ export default function ProductFormModal({ categoryId, product, onClose, onSave 
       } else {
         alert("Error al guardar producto");
       }
-
     } catch (err) {
       console.error(err);
       alert("Error en la solicitud");
@@ -84,10 +138,58 @@ export default function ProductFormModal({ categoryId, product, onClose, onSave 
               {product ? "Editar" : "Agregar"} Producto
             </h2>
 
-            {/* PREVIEW */}
-            {preview && (
-              <div className="text-center">
-                <img src={preview} className="w-40 mx-auto rounded border" />
+            {Object.keys(errors).length > 0 && (
+              <div className="bg-red-100 text-red-700 p-2 rounded">
+                {Object.entries(errors).map(([field, msgs]) => (
+                  <p key={field}>{field}: {msgs.join(", ")}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Multimedia existente */}
+            {existingMedia.length > 0 && (
+              <div className="grid grid-cols-3 gap-2">
+                {existingMedia.map((media) => (
+                  <div key={media.id} className="relative">
+                    {media.type === "image" ? (
+                      <img src={media.url} className="w-full h-24 object-cover rounded border" />
+                    ) : (
+                      <video src={media.url} className="w-full h-24 rounded" controls />
+                    )}
+                    <button
+                      type="button"
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded px-1"
+                      onClick={() => handleRemoveExisting(media.id)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Previews de archivos nuevos */}
+            {previews.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 mt-2">
+                {previews.map(({ file, url }, i) => {
+                  const isVideo = file.type.startsWith("video");
+                  return (
+                    <div key={i} className="relative">
+                      {isVideo ? (
+                        <video src={url} className="w-full h-24 rounded" controls />
+                      ) : (
+                        <img src={url} className="w-full h-24 object-cover rounded border" />
+                      )}
+                      <button
+                        type="button"
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded px-1"
+                        onClick={() => handleRemoveNewFile(i)}
+                      >
+                        X
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
 
@@ -128,8 +230,14 @@ export default function ProductFormModal({ categoryId, product, onClose, onSave 
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Imagen</label>
-                <input type="file" name="image" accept="image/*" onChange={handleChange} />
+                <label className="block text-gray-700 font-medium mb-1">Agregar Multimedia</label>
+                <input
+                  type="file"
+                  name="files"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={handleChange}
+                />
               </div>
             </div>
 

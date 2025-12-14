@@ -58,7 +58,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminControllerDashboard::class, 'index']);
 
 
-        Route::get('/ventas/json', [VentasController::class, 'getCategoriasJson'])->name('admin.ventas.json');
+        Route::get('/ventas/json', [VentasController::class, 'getCategoriasJson'])->name('admin.ventas.json1');
         Route::get('/ventas/search-sku', [VentasController::class, 'searchBySku']);
 
         // Categorías
@@ -68,10 +68,25 @@ Route::prefix('admin')->group(function () {
         Route::delete('/categories/bulk-delete', [AdminControllerDashboard::class, 'bulkDeleteCategories']);
 
 
-       Route::get('/categories/{category}/products', [AdminCategoryProductsController::class, 'index']) ->name('admin.categories.products');
-    Route::post('/products', [AdminCategoryProductsController::class, 'store']);
-    Route::put('/products/{product}', [AdminCategoryProductsController::class, 'update']);
-    Route::delete('/products/{product}', [AdminCategoryProductsController::class, 'destroy']);
+   // Mostrar productos de una categoría
+Route::get('/categories/{category}/products', [AdminCategoryProductsController::class, 'index'])
+    ->name('admin.categories.products');
+
+// Crear producto
+Route::post('/products', [AdminCategoryProductsController::class, 'store'])
+    ->name('admin.products.store');
+
+// Actualizar producto
+Route::put('/products/{product}', [AdminCategoryProductsController::class, 'update'])
+    ->name('admin.products.update');
+
+// Eliminar producto
+Route::delete('/products/{product}', [AdminCategoryProductsController::class, 'destroy'])
+    ->name('admin.products.destroy');
+
+// Eliminar multimedia de un producto
+Route::delete('/products/{product}/multimedia/{media}', [AdminCategoryProductsController::class, 'destroyMultimedia'])
+    ->name('admin.products.multimedia.destroy');
 
 
 Route::post('/descontar-stock', [StockController::class, 'descontar'])

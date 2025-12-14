@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 
 export default function ProductCard({ product }) {
+  
   const totalStock =
     product.variants?.reduce((sum, v) => sum + v.stock, 0) || 0;
 
@@ -32,7 +33,7 @@ export default function ProductCard({ product }) {
       `}
       style={{ fontFamily: "'Playfair Display', serif" }}
     >
-      {/* Imagen */}
+   
       <div className="w-full aspect-[4/5] p-4 bg-white border-b border-grayCustom/30 rounded-t-3xl overflow-hidden">
         <img
           src={imageUrl}
@@ -41,13 +42,12 @@ export default function ProductCard({ product }) {
         />
       </div>
 
-      {/* Contenido */}
       <div className="p-5 flex flex-col gap-3">
         <h3 className="text-xl font-extrabold uppercase tracking-wide text-darkGray">
           {product.name}
         </h3>
 
-        {/* Variantes */}
+        
         <div className="flex flex-wrap gap-2">
           {product.variants?.map(v => (
             <span

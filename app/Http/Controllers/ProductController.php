@@ -78,7 +78,11 @@ class ProductController extends Controller
             'name' => $product->name,
             'description' => $product->description,
             'price' => $product->price,
-            'image' => $product->multimedia->first()?->url,
+            'multimedia' => $product->multimedia->map(fn ($m) => [
+                'id' => $m->id,
+                'url' => $m->url,
+                'type' => $m->type ?? 'image', // opcional (image / video)
+            ]),
             'variants' => $product->variants->map(fn($v) => [
                 'id' => $v->id,
                 'stock' => $v->stock,
