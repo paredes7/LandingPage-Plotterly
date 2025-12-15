@@ -10,7 +10,7 @@ export default function CheckoutHeader() {
                     className="text-4xl font-bold text-turquoise"
                     style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
                 >
-                    MORA
+                    MARO
                 </h1>
 
                 <h2

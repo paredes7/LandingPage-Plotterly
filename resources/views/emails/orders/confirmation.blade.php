@@ -1,8 +1,8 @@
 @component('mail::message')
 {{-- Logo --}}
-<img src="{{ asset('https://res.cloudinary.com/dnbklbswg/image/upload/v1765627552/Captura_de_pantalla_2025-12-13_075927-removebg-preview_m4lqsz.png') }}" alt="mora" style="width:150px; margin-bottom:20px;">
+<img src="{{ asset('https://res.cloudinary.com/dnbklbswg/image/upload/v1765627552/Captura_de_pantalla_2025-12-13_075927-removebg-preview_m4lqsz.png') }}" alt="maro" style="width:150px; margin-bottom:20px;">
 
-# Gracias por comprar en Mora, {{ $order->customer_name }}!
+# Gracias por comprar en Maro, {{ $order->customer_name }}!
 
 A continuación el resumen de tu pedido:
 
@@ -38,6 +38,6 @@ A continuación el resumen de tu pedido:
 - Por favor envía tu comprobante de pago al correo o WhatsApp del vendedor.  
 - Tu pedido será procesado pronto y recibirás notificación del envío.
 
-Gracias por confiar en Mora.
+Gracias por confiar en Maro.
 
 @endcomponent
