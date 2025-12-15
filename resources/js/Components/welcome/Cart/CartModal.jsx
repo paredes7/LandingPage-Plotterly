@@ -125,7 +125,7 @@ export default function CartModal({ isOpen, onClose }) {
 
                 <div className="text-right flex flex-col justify-between h-full">
                   <p className="font-bold text-turquoise">
-                    $ {(item.price * item.qty).toFixed(2)}
+                    $ {(item.price * item.qty).toFixed(0)}
                   </p>
 
                   <button
@@ -146,7 +146,7 @@ export default function CartModal({ isOpen, onClose }) {
             <p className="flex justify-between font-bold text-lg">
               <span>Total:</span>
               <span className="text-turquoise">
-                $ {total.toFixed(2)}
+                $ {total.toFixed(0)}
               </span>
             </p>
 

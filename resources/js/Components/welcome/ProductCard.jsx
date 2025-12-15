@@ -72,7 +72,7 @@ export default function ProductCard({ product }) {
 
         
         <p className="text-2xl font-extrabold tracking-wide text-turquoise">
-          $ {Number(product.price).toFixed(2)}
+          $ {Number(product.price).toFixed(0)}
         </p>
       </div>
     </Link>

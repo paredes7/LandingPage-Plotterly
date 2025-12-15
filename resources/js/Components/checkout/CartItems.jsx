@@ -41,8 +41,8 @@ export default function CartItems({ cart, loading, total }) {
                                             </p>
                                         </td>
                                         <td className="py-2 px-4 text-center">{item.qty}</td>
-                                        <td className="py-2 px-4 text-right">{Number(item.price).toFixed(2)}</td>
-                                        <td className="py-2 px-4 text-right font-semibold">{itemSubtotal.toFixed(2)}</td>
+                                        <td className="py-2 px-4 text-right">{Number(item.price).toFixed(0)}</td>
+                                        <td className="py-2 px-4 text-right font-semibold">{itemSubtotal.toFixed(0)}</td>
                                     </tr>
                                 );
                             })}
@@ -52,7 +52,7 @@ export default function CartItems({ cart, loading, total }) {
                             <tr>
                                 <td colSpan="4" className="py-2 px-4 text-right font-bold text-darkGray text-lg">Total:</td>
                                 <td className="py-2 px-4 text-right font-bold text-lg text-turquoise">
-                                    {Number(total).toFixed(2)} $
+                                    {Number(total).toFixed(0)} $
                                 </td>
                             </tr>
                         </tfoot>
@@ -73,7 +73,7 @@ export default function CartItems({ cart, loading, total }) {
                                         <div>
                                             <p className="text-darkGray font-semibold">{item.name}</p>
                                             <p className="text-grayCustom text-sm">{item.options.variant || item.variant}</p>
-                                            <p className="text-grayCustom text-sm">Precio: {Number(item.price).toFixed(2)} $</p>
+                                            <p className="text-grayCustom text-sm">Precio: {Number(item.price).toFixed(0)} $</p>
                                         </div>
                                     </div>
 
@@ -84,7 +84,7 @@ export default function CartItems({ cart, loading, total }) {
 
                                     <div className="flex justify-between text-sm">
                                         <span className="text-grayCustom">Subtotal:</span>
-                                        <span className="font-bold text-darkGray">{itemSubtotal.toFixed(2)} $</span>
+                                        <span className="font-bold text-darkGray">{itemSubtotal.toFixed(0)} $</span>
                                     </div>
                                 </div>
                             );
@@ -92,7 +92,7 @@ export default function CartItems({ cart, loading, total }) {
 
                         <div className="flex justify-between border-t border-grayCustom pt-3 text-lg font-bold text-darkGray">
                             <span>Total:</span>
-                            <span className="text-turquoise">{Number(total).toFixed(2)} $</span>
+                            <span className="text-turquoise">{Number(total).toFixed(0)} $</span>
                         </div>
                     </div>
                 </div>
