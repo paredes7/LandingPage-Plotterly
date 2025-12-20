@@ -37,6 +37,7 @@ class ProductController extends Controller
                 return [
                     'id' => $child->id,
                     'name' => $child->name,
+                    'description'=>$child->description,
                     'products' => $childProducts,
                 ];
             });
@@ -44,6 +45,7 @@ class ProductController extends Controller
             return [
                 'id' => $category->id,
                 'name' => $category->name,
+                'description'=>$category->description,
                 'products' => $categoryProducts,
                 'children' => $children,
             ];
