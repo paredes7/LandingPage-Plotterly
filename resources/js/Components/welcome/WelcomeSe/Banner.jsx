@@ -6,7 +6,7 @@ export default function Banner({img}) {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{ 
-          backgroundImage: `url(${img || "https://res.cloudinary.com/dnbklbswg/image/upload/v1767755747/banner_yfcfdc.jpg"})` 
+          backgroundImage: `url(${img || "https://res.cloudinary.com/dnbklbswg/image/upload/v1769557513/42b7e3e204ad93f3e39e7bd37b0bfb1f_qqp99z.png"})` 
         }}
       >
         {/* Overlay para legibilidad del texto */}
