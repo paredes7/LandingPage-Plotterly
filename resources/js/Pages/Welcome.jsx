@@ -8,7 +8,7 @@ import Marcas from '@/Components/welcome/Marcas/Marcas';
 export default function Welcome({ categories, search, page, hasMore }) {
   
   return (
-    <Layout title="Pragati Motors | Bolivia">
+    <Layout title="Consultoría Contable y Tributaria"> 
       
       <Banner />
       <Service/>

@@ -9,12 +9,10 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const NAV_LINKS = [
-    { href: '/', label: 'Nosotros' },
-    { href: '/Productos', label: 'Productos' },
-    { href: '/Post-Venta', label: 'Post-Venta' },
-    { href: '/Financiamiento', label: 'Financiamiento' },
-    { href: '/Sucursales', label: 'Sucursales' },
-    { href: '/Noticias', label: 'Noticias' },
+    { href: '/', label: 'Inicio' },
+    { href: '/cursos', label: 'Cursos' }, // Nuevo link
+    { href: '/servicios', label: 'Servicios' },
+    { href: '/contacto', label: 'Contactos' },
   ];
   useEffect(() => {
     const handleScroll = () => {
@@ -24,14 +22,17 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  //<ParteArriba/>  debajo de <>
   return (
     <>
-      <ParteArriba/>
+      
        <header
-        className={`w-full animate-blurred-fade-in bg-white shadow-md transition-all duration-300 sticky top-0 z-50 ${
-          isScrolled ? 'py-2' : 'py-4'
-        }`}
-      >
+          className={`w-full fixed top-0 z-50 transition-all duration-500 ${
+            isScrolled 
+              ? 'bg-black/80 py-2 shadow-lg backdrop-blur-md' 
+              : 'bg-black/40 py-6 backdrop-blur-sm' 
+          }`}
+        >
         <div className="container mx-auto flex justify-between items-center px-6">
        
           <Link href="/" className="flex items-center">
@@ -45,12 +46,25 @@ export default function Header() {
           </Link>
 
      
-          <nav className="hidden lg:flex items-center gap-8 font-semibold text-gray-700">
-            {NAV_LINKS.map((link) => (
-              <NavLink key={link.href} href={link.href}>
-                {link.label}
-              </NavLink>
-            ))}
+          <nav className="hidden lg:flex items-center gap-8 font-semibold">
+            {NAV_LINKS.map((link) => {
+              // Si quieres que 'Inicio' esté siempre activo en el home
+              const isActive = link.href === '/'; 
+
+              return (
+                <NavLink 
+                  key={link.href} 
+                  href={link.href}
+                  className={`text-lg ${
+                    isActive 
+                      ? 'text-[#33CCCC]' // Color cian para activo
+                      : 'text-white hover:text-[#33CCCC]' // Blanco que cambia a cian
+                  }`}
+                >
+                  {link.label}
+                </NavLink>
+              );
+            })}
           </nav>
 
     
