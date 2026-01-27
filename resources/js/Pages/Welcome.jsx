@@ -3,11 +3,12 @@ import Banner from '@/Components/welcome/WelcomeSe/Banner';
 import WelcomeSection from '@/Components/welcome/WelcomeSe/WelcomeSection';
 import CategoriesGrid from '@/Components/welcome/WelcomeSe/CategoriesGrid';
 import CTAContact from '@/Components/welcome/WelcomeSe/CTAContact';
+import Reviews from '@/Components/welcome/WelcomeSe/Reviews';
 
 export default function Welcome({ categories, search, page, hasMore }) {
   
   return (
-    <Layout title="Pragati Motors | Bolivia">
+    <Layout title="Consultoría Contable y Tributaria"> 
       
       <Banner img="https://res.cloudinary.com/dnbklbswg/image/upload/v1767755747/banner_yfcfdc.jpg" />
       
@@ -18,6 +19,7 @@ export default function Welcome({ categories, search, page, hasMore }) {
       
       
       <CTAContact />
+      <Reviews />
     </Layout>
   );
 }
