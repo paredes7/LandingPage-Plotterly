@@ -10,7 +10,7 @@ export default function Header() {
 
   const NAV_LINKS = [
     { href: '/', label: 'Inicio' },
-    { href: '/cursos', label: 'Cursos' }, // Nuevo link
+    { href: '/products/cursos', label: 'Cursos' }, // Nuevo link
     { href: '/servicios', label: 'Servicios' },
     { href: '/contacto', label: 'Contactos' },
   ];

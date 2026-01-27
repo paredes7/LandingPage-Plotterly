@@ -2,18 +2,16 @@ export default function Banner({img}) {
   return (
     <section className="animate-fade-in relative w-full h-[600px] md:h-screen overflow-hidden bg-gray-900">
       
-      {/* Contenedor de Imagen Estática (Fixed Background) */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{ 
           backgroundImage: `url(${img || "https://res.cloudinary.com/dnbklbswg/image/upload/v1767755747/banner_yfcfdc.jpg"})` 
         }}
       >
-        {/* Overlay para legibilidad del texto */}
+     
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
-      {/* Contenido Principal */}
       <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
         <div className="max-w-4xl">
           
@@ -30,7 +28,7 @@ export default function Banner({img}) {
             Ahora, con procesos digitales. Más eficiente que nunca.
           </p>
 
-          {/* Botones de Acción */}
+          
           <div className="flex flex-wrap gap-4">
             <button className="px-8 py-3 bg-[#33CCCC] hover:bg-[#2bbaba] text-white rounded-full font-semibold transition-all transform hover:scale-105">
               Contáctame
