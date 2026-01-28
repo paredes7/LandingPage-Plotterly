@@ -2,14 +2,14 @@ export default function Reviews() {
   const testimonials = [
     {
       name: "Bryan Cooper",
-      role: "Nose, un man por ahi",
-      content: "la verdad es un buen curso jajaja",
+      role: "estudiante de finazas",
+      content: "el curso muy importante para mi desarrollo profesional",
       image: "https://randomuser.me/api/portraits/men/1.jpg"
     },
     {
       name: "Stella Silver",
       role: "Responsable de Marketing ",
-      content: "ta bueno",
+      content: "muy interesante el curso, lo recomiendo mucho",
       image: "https://randomuser.me/api/portraits/women/1.jpg"
     }
   ];
@@ -18,7 +18,6 @@ export default function Reviews() {
     <section className="py-24 bg-[#F8FAFC]">
       <div className="container mx-auto px-6">
         
-        {/* Título de la sección */}
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Sus palabras te dicen más sobre mí
@@ -26,12 +25,11 @@ export default function Reviews() {
           <div className="w-20 h-1.5 bg-[#33CCCC] mx-auto rounded-full"></div>
         </div>
 
-        {/* Cuadrícula de testimonios */}
         <div className="grid md:grid-cols-2 gap-16 max-w-6xl mx-auto">
           {testimonials.map((item, index) => (
             <div key={index} className="flex flex-col md:flex-row gap-6 items-start group">
               
-              {/* Foto Circular */}
+     
               <div className="relative flex-shrink-0">
                 <img 
                   src={item.image} 
@@ -40,7 +38,7 @@ export default function Reviews() {
                 />
               </div>
 
-              {/* Contenido */}
+       
               <div className="space-y-4">
                 <p className="text-gray-600 text-lg leading-relaxed italic">
                   "{item.content}"
