@@ -37,7 +37,7 @@ export default function Header() {
        
           <Link href="/" className="flex items-center">
             <img
-              src="https://res.cloudinary.com/dnbklbswg/image/upload/v1767750866/pragatilogo_cw8xso.jpg"
+              src="https://res.cloudinary.com/dcyx3nqj5/image/upload/v1769559160/image-removebg-preview_t1ujpr.png"
               alt="Pragbati | Nibol Logo"
               className={`transition-all duration-300 object-contain ${
                 isScrolled ? 'h-12 w-32 md:h-14 md:w-40' : 'h-16 w-40 md:h-20 md:w-56'

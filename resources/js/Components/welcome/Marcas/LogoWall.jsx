@@ -1,4 +1,5 @@
 // resources/js/Components/LogoWall.jsx
+import { Link } from 'lucide-react';
 import React from 'react';
 
 export default function LogoWall({ marcas = [], titulo = "Marcas con las que trabajé" }) {
@@ -24,6 +25,7 @@ export default function LogoWall({ marcas = [], titulo = "Marcas con las que tra
                                 // Subí un poco la altura para que luzcan mejor en 5 columnas
                                 className="h-12 md:h-32 w-auto transition-transform duration-300"
                             />
+                           
                         </div>
                     ))}
                 </div>
