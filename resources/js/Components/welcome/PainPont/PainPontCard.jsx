@@ -16,7 +16,7 @@ export default function PainPointCard({ title, description, icon, isMobile }) {
       whileHover={!isMobile ? { scale: 1.05, translateY: -10 } : {}}
       transition={{ duration: 0.4, ease: "easeOut" }}
       // CLAVE: Se agregó 'group' para que los efectos de hover en hijos funcionen
-      className="group max-w-[370px] flex flex-col items-center p-10 bg-gradient-to-br from-blue-950/50 to-blue-900/90 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl min-h-[300px] cursor-pointer"
+      className="group max-w-[370px] flex flex-col items-center p-10 bg-gradient-to-br from-blue-950/50 to-blue-900/90 backdrop-blur-xl border border-white/10 rounded-[1rem] shadow-2xl min-h-[300px] cursor-pointer"
     >
       {/* AJUSTE DE TAMAÑO: Se aumentó de h-24/w-24 a h-32/w-32 */}
       <div className="h-36 w-38  flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
