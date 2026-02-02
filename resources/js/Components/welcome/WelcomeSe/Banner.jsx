@@ -46,7 +46,6 @@ export default function Banner({ img }) {
             </div>
 
             <div className="relative z-10 container mx-auto px-6 pt-40 pb-20">
-                
                 <div className="flex items-center justify-center gap-2 mb-8 px-4">
                     <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-blue-700/60"></div>
                     <h2 className="text-white text-2xl md:text-4xl font-bold tracking-[0.1em] uppercase text-center opacity-80">
@@ -54,24 +53,44 @@ export default function Banner({ img }) {
                     </h2>
                     <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-blue-700/60"></div>
                 </div>
-
-             
                 {/* Móvil: Carrusel Automático */}
-                <div className="block md:hidden relative h-[450px] w-full max-w-[350px] mx-auto">
-                    <AnimatePresence mode="wait">
-                        <PainPontCard
-                            key={currentIndex}
-                            {...painPoints[currentIndex]}
-                            isMobile={true}
-                        />
-                    </AnimatePresence>
+                <div className="block md:hidden relative w-full max-w-[350px] mx-auto">
+                    <div className="h-[310px] relative">
+                        {" "}
+                        
+                        <AnimatePresence mode="wait">
+                            <PainPontCard
+                                key={currentIndex}
+                                {...painPoints[currentIndex]}
+                                isMobile={true}
+                                onNext={() =>
+                                    setCurrentIndex(
+                                        (prev) =>
+                                            (prev + 1) % painPoints.length,
+                                    )
+                                }
+                                onPrev={() =>
+                                    setCurrentIndex(
+                                        (prev) =>
+                                            (prev - 1 + painPoints.length) %
+                                            painPoints.length,
+                                    )
+                                }
+                            />
+                        </AnimatePresence>
+                    </div>
 
-                   
-                    <div className="flex justify-center gap-2 mt-8">
+                    
+                    <div className="flex justify-center gap-3 mt-12 pb-6">
                         {painPoints.map((_, idx) => (
-                            <div
+                            <button
                                 key={idx}
-                                className={`h-2 rounded-full transition-all duration-500 ${idx === currentIndex ? "w-8 bg-[#33CCCC]" : "w-2 bg-white/20"}`}
+                                onClick={() => setCurrentIndex(idx)}
+                                className={`h-2.5 rounded-full transition-all duration-500 shadow-lg ${
+                                    idx === currentIndex
+                                        ? "w-10 bg-[#33CCCC] opacity-100"
+                                        : "w-2.5 bg-white/40 opacity-50"
+                                }`}
                             />
                         ))}
                     </div>
