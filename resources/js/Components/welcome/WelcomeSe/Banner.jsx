@@ -45,7 +45,7 @@ export default function Banner({ img }) {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-black/60  to-transparent"></div>{" "}
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 pt-40 pb-20">
+            <div className="relative z-10 container mx-auto -my-4 px-6 pt-40 pb-20">
                 <div className="flex items-center justify-center gap-2 mb-8 px-4">
                     <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-blue-700/60"></div>
                     <h2 className="text-white text-2xl md:text-4xl font-bold tracking-[0.1em] uppercase text-center opacity-80">
@@ -54,8 +54,8 @@ export default function Banner({ img }) {
                     <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-blue-700/60"></div>
                 </div>
                 {/* Móvil: Carrusel Automático */}
-                <div className="block md:hidden relative w-full max-w-[350px] mx-auto">
-                    <div className="h-[310px] relative">
+                <div className="block md:hidden relative w-full max-w-[300px] mx-auto -my-7">
+                    <div className="h-[350px] relative">
                         {" "}
                         
                         <AnimatePresence mode="wait">

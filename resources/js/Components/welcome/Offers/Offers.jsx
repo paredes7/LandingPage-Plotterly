@@ -12,7 +12,7 @@ export default function Offers({ ofertas = [] }) {
             <Head title="Nuestros Servicios" />
             
 
-            <div className="max-w-[1400px] mx-auto py-16 px-4">
+            <div className="max-w-[1400px] mx-auto py-8 px-4">
                 <div className="flex items-center justify-center gap-2 mb-8 px-4">
                     <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-blue-700/60"></div>
                     <h2 className="text-black text-2xl md:text-4xl font-bold tracking-[0.1em] uppercase text-center opacity-80">
@@ -23,7 +23,7 @@ export default function Offers({ ofertas = [] }) {
 
                 
 
-                <div className="flex flex-col md:grid md:grid-cols-3 gap-y-10 md:gap-7 items-stretch max-w-[1200px] mx-auto">
+                <div className="flex flex-col md:grid md:grid-cols-3 gap-y-3 md:gap-4 items-stretch max-w-[1200px] mx-auto">
                     {" "}
                     {dataToRender.map((Offers) => (
                         <OffersCard key={Offers.id} {...Offers} />
