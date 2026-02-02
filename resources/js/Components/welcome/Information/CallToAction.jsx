@@ -4,15 +4,15 @@ import { motion } from "framer-motion";
 export default function CallToAction() {
     return (
         <section className="bg-white flex flex-col items-center justify-center">
-            <div className="container mx-auto px-6 text-center max-w-4xl">
+            <div className="container mx-auto px-6 text-center flex-col items-center max-w-4xl">
                 <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
                     className="relative w-full max-w-3xl bg-gradient-to-r from-[#1d3474] to-[#3f80f1] 
                                text-white rounded-xl shadow-[0_10px_30px_rgba(43,89,211,0.3)] 
                                mb-6 transition-all py-5 px-4 md:px-10
-                               /* FLEXBOX CLAVE: Columna en móvil, Fila en PC */
-                               flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4"
+                            
+                               flex flex-col md:flex-row items-center text-center justify-center gap-2 md:gap-4"
                 >
                  
                     <span className="text-xl md:text-2xl font-bold tracking-tight">
@@ -43,7 +43,7 @@ export default function CallToAction() {
                     href="#"
                     whileHover={{ x: 5 }}
                     
-                    className="flex flex-row md:flex-row items-center mb-3 -mt-5 justify-center gap-3 text-[#2b59d3]"
+                    className="flex flex-row md:flex-row items-center w-full mb-5 justify-center gap-3 text-[#2b59d3]"
                 >
               
                     <div className="flex-shrink-0 w-10 h-10 bg-[#2b59d3] rounded-full flex items-center justify-center pl-1 shadow-md transition-transform duration-300">
