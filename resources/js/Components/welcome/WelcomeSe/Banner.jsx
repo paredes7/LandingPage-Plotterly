@@ -1,44 +1,88 @@
-export default function Banner({img}) {
-  return (
-    <section className="animate-fade-in relative w-full h-[600px] md:h-screen overflow-hidden bg-gray-900">
-      
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
-        style={{ 
-          backgroundImage: `url(${img || "https://res.cloudinary.com/dnbklbswg/image/upload/v1769557513/42b7e3e204ad93f3e39e7bd37b0bfb1f_qqp99z.png"})` 
-        }}
-      >
-     
-        <div className="absolute inset-0 bg-black/50"></div>
-      </div>
+import PainPontCard from "../PainPont/PainPontCard";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
-      <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-        <div className="max-w-4xl">
-          
-          <h1 className="text-white font-bold leading-tight mb-6">
-            <span className="block text-4xl md:text-6xl lg:text-7xl tracking-tight">
-              Consultoría contable
-            </span>
-            <span className="block text-4xl md:text-6xl lg:text-7xl mt-2">
-              y tributaria.
-            </span>
-          </h1>
+export default function Banner({ img }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    // Datos de las tarjetas para fácil mantenimiento
+    const painPoints = [
+        {
+            title: "Manual Lead Generation",
+            description: "Wasting hours searching for leads.",
+            icon: "https://res.cloudinary.com/dcyx3nqj5/image/upload/v1770056417/Captura_de_pantalla_2026-02-02_141746-removebg-preview_ntu4lz.png", // Reemplazar con tus assets locales
+        },
+        {
+            title: "Unknown Owners",
+            description: "No owner contact info.",
+            icon: "https://res.cloudinary.com/dcyx3nqj5/image/upload/v1770056417/Captura_de_pantalla_2026-02-02_141806-removebg-preview_lpek7x.png",
+        },
+        {
+            title: "Scattered Sales Tools",
+            description: "Disjointed quotes & invoices.",
+            icon: "https://res.cloudinary.com/dcyx3nqj5/image/upload/v1770056417/Captura_de_pantalla_2026-02-02_141914-removebg-preview_fozuko.png",
+        },
+    ];
 
-          <p className="text-white/90 text-lg md:text-2xl font-light leading-relaxed mb-10 max-w-2xl">
-            Ahora, con procesos digitales. Más eficiente que nunca.
-          </p>
+    // Temporizador para móviles (10 segundos)
+    useEffect(() => {
+        if (painPoints.length === 0) return;
 
-          
-          <div className="flex flex-wrap gap-4">
-            <button className="px-8 py-3 bg-[#33CCCC] hover:bg-[#2bbaba] text-white rounded-full font-semibold transition-all transform hover:scale-105">
-              Contáctame
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center bg-[#33CCCC]/20 border border-[#33CCCC] text-white rounded-full hover:bg-[#33CCCC] transition-all">
-               <span className="text-xl">→</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % painPoints.length);
+        }, 10000);
+
+        return () => clearInterval(timer);
+    }, [painPoints.length]);
+
+    return (
+        <section className="animate-fade-in relative w-full h-[600px] md:h-screen overflow-hidden bg-gray-900">
+            <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+                style={{
+                    backgroundImage: `url(${img || "https://res.cloudinary.com/dnbklbswg/image/upload/v1769557513/42b7e3e204ad93f3e39e7bd37b0bfb1f_qqp99z.png"})`,
+                }}
+            >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-black/60  to-transparent"></div>{" "}
+            </div>
+
+            <div className="relative z-10 container mx-auto px-6 pt-40 pb-20">
+                
+                <div className="flex items-center justify-center gap-2 mb-8 px-4">
+                    <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-blue-700/60"></div>
+                    <h2 className="text-white text-2xl md:text-4xl font-bold tracking-[0.1em] uppercase text-center opacity-80">
+                        Pain Points
+                    </h2>
+                    <div className="h-[3px] flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-blue-700/60"></div>
+                </div>
+
+             
+                {/* Móvil: Carrusel Automático */}
+                <div className="block md:hidden relative h-[450px] w-full max-w-[350px] mx-auto">
+                    <AnimatePresence mode="wait">
+                        <PainPontCard
+                            key={currentIndex}
+                            {...painPoints[currentIndex]}
+                            isMobile={true}
+                        />
+                    </AnimatePresence>
+
+                   
+                    <div className="flex justify-center gap-2 mt-8">
+                        {painPoints.map((_, idx) => (
+                            <div
+                                key={idx}
+                                className={`h-2 rounded-full transition-all duration-500 ${idx === currentIndex ? "w-8 bg-[#33CCCC]" : "w-2 bg-white/20"}`}
+                            />
+                        ))}
+                    </div>
+                </div>
+                {/* Desktop: Grid Estático Simétrico */}
+                <div className="hidden md:grid md:grid-cols-3 gap-8 items-stretch max-w-[1200px] mx-auto">
+                    {painPoints.map((point, index) => (
+                        <PainPontCard key={index} {...point} isMobile={false} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 }

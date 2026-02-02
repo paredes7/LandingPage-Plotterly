@@ -1,22 +1,17 @@
 import Layout from '@/Layouts/MainLayout';
 import Banner from '@/Components/welcome/WelcomeSe/Banner';
-import WelcomeSection from '@/Components/welcome/WelcomeSe/WelcomeSection';
-import CategoriesGrid from '@/Components/welcome/WelcomeSe/CategoriesGrid';
-import CTAContact from '@/Components/welcome/WelcomeSe/CTAContact';
-import Reviews from '@/Components/welcome/WelcomeSe/Reviews';
+import Offers from '@/Components/welcome/Offers/Offers';
+import CallToAction from '@/Components/welcome/Information/CallToAction';
 
-import Service from '@/Components/welcome/Servicios/Service';
-import Marcas from '@/Components/welcome/Marcas/Marcas';
 export default function Welcome({ categories, search, page, hasMore }) {
   
   return (
-    <Layout title="Consultoría Contable y Tributaria"> 
+    <Layout title="Plotterly - Inicio" > 
       
       <Banner />
-      <Service/>
-      <Marcas />
-      <CTAContact />
-      <Reviews /> 
+      <Offers/>
+      <CallToAction />
+      
     </Layout>
   );
 }
