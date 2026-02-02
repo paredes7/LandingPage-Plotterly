@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function OffersCard({ titulo, descripcion, imagen, link }) {
     return (
         <div
-            className="relative group overflow-hidden h-[450px] w-full 
+            className="relative group overflow-hidden h-[410px] w-full 
                         rounded-[1rem] border border-black/10 shadow-2xl"
         >
             
@@ -21,7 +21,7 @@ export default function OffersCard({ titulo, descripcion, imagen, link }) {
                     <div className="w-12 h-[2px] bg-[#337acc] mb-6 transition-all duration-500 group-hover:w-24 group-hover:shadow-[0_0_15px_#33CCCC]" />
 
                     
-                    <p className="text-[#0b1041] text-left text-base font-bold opacity-90 max-w-[280px]">
+                    <p className="text-[#0b1041] text-left text-[20px] font-bold opacity-90 max-w-[280px]">
                         {descripcion}
                     </p>
 
